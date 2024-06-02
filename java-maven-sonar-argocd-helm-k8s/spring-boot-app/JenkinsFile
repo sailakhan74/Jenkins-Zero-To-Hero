@@ -28,9 +28,9 @@ pipeline {
         script {
         // sh 'ls -ltr'
         // build the project and create a JAR file
-        withEnv(["MAVEN_OPTS=-Drepo.username=${REPO_USERNAME} -Drepo.password=${REPO_PASSWORD}"])  {
+        //withEnv(["MAVEN_OPTS=-Drepo.username=${REPO_USERNAME} -Drepo.password=${REPO_PASSWORD}"])  {
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn deploy'
-      }
+     // }
      }
      }
     }
