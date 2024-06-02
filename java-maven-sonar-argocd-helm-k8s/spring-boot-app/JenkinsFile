@@ -1,5 +1,9 @@
 pipeline {
   agent {
+    environment {
+        REPO_USERNAME = 'admin' // Nexus username
+        REPO_PASSWORD = '123456' // Nexus password
+    }
     docker {
       image 'abhishekf5/maven-abhishek-docker-agent:v1'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
@@ -21,10 +25,14 @@ pipeline {
     }
     stage('Deploy to nexus') {
       steps {
-        sh 'ls -ltr'
+        script {
+        // sh 'ls -ltr'
         // build the project and create a JAR file
+        withEnv(["MAVEN_OPTS=-Drepo.username=${REPO_USERNAME} -Drepo.password=${REPO_PASSWORD}"])  {
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn deploy'
       }
+     }
+     }
     }
   }
 }
